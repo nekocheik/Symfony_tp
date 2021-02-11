@@ -112,7 +112,6 @@ class BarController extends AbstractController
      */
     public function createCategory()
     {
-
         // new category
         $category = new Category();
         $category->setName('Houblon');
@@ -138,14 +137,34 @@ class BarController extends AbstractController
         );
     }
 
+
+    /**
+     * @Route("/addcategory", name="addcategory")
+     */
+    public function addCategory()
+    {
+        // new category
+        $category = new Category();
+        $category->setName('Houblon' . random_int(1, 10));
+        $category->setDescription('Houblon' . random_int(1, 10));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($category);
+        $entityManager->flush();
+
+        return new Response(
+            ' and new category with id: ' . $category->getId()
+        );
+    }
+
+
     /**
      * @Route("/relation", name="relation")
      */
-    public function showCategory()
+    public function addRelation()
     {
         $beers = $this->getDoctrine()->getRepository(Beer::class);
         $entityManager = $this->getDoctrine()->getManager();
-
 
         // new category Blonde
         $category = new Category();
@@ -158,6 +177,32 @@ class BarController extends AbstractController
         }
 
         $entityManager->persist($category);
+        $entityManager->flush();
+
+        return new Response(
+            'beers'
+        );
+    }
+
+     /**
+     * @Route("/relationcat", name="relationcat")
+     */
+    public function addRelationcat()
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // new category Blonde
+        $beer = new Beer();
+        $beer->setName('Ardeche');
+        $beer->setDescription('Blonde');
+
+        foreach ($categories->findAll() as $category) {
+            // relates this beer to the category
+            $beer->addCategory($category);
+        }
+
+        $entityManager->persist($beer);
         $entityManager->flush();
 
         return new Response(
