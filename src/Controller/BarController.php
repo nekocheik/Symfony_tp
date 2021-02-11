@@ -8,6 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+use App\Entity\Beer;
+use App\Entity\Category;
+
 class BarController extends AbstractController
 {
 
@@ -82,5 +85,72 @@ class BarController extends AbstractController
             'title' => "Page d'accueil",
         ]);
     }
+
+    /**
+     * @Route("/newbeer", name="create_beer")
+    */
+    public function createBeer(){
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $beer = new Beer();
+        $beer->setname('Super Beer');
+        $beer->setPublishedAt(new \DateTime());
+        $beer->setDescription('Ergonomic and stylish!');
+
+        // tell Doctrine you want to (eventually) save the Product (no queries yet)
+        $entityManager->persist($beer);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+
+        return new Response('Saved new beer with id '.$beer->getId());
+    }
+
+    /**
+     * @Route("/newcategory", name="newcategory")
+    */
+    public function createCategory(){
+
+        // new category
+        $category = new Category();
+        $category->setName('Houblon');
+        $category->setDescription('Houblon');
+
+        // new beer
+        $beer = new Beer();
+        $beer->setName('Beer new');
+        $beer->setPrice(19.99);
+        $beer->setDescription('Ergonomic and stylish!');
+
+        // relates this beer to the category
+        $category->addBeer($beer);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($category);
+        $entityManager->persist($beer);
+        $entityManager->flush();
+
+        return new Response(
+            'Saved new beer with id: '.$beer->getId()
+            .' and new category with id: '.$category->getId()
+        );
+    }
+
+
+    /**
+     * @Route("/show", name="show")
+    */
+    public function showCategory(){
+        $repository = $this->getDoctrine()->getRepository(Beer::class);
+
+        $beers = $repository->findAll();
+
+        dump($beers);
+
+        return new Response(
+           'beers'
+        );
+    }
+
 
 }
