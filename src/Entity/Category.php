@@ -25,12 +25,12 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Beer::class, mappedBy="category")
+     * @ORM\ManyToMany(targetEntity=Beer::class, mappedBy="categories")
      */
     private $beers;
 
@@ -61,7 +61,7 @@ class Category
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

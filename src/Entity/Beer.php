@@ -47,11 +47,11 @@ class Beer
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="beers")
      */
-    private $category;
+    private $categories;
 
     public function __construct()
     {
-        $this->category = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,15 +122,15 @@ class Beer
     /**
      * @return Collection|Category[]
      */
-    public function getCategory(): Collection
+    public function getCategories(): Collection
     {
-        return $this->category;
+        return $this->categories;
     }
 
     public function addCategory(Category $category): self
     {
-        if (!$this->category->contains($category)) {
-            $this->category[] = $category;
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
         }
 
         return $this;
@@ -138,8 +138,9 @@ class Beer
 
     public function removeCategory(Category $category): self
     {
-        $this->category->removeElement($category);
+        $this->categories->removeElement($category);
 
         return $this;
     }
+
 }
