@@ -15,6 +15,7 @@ class BarController extends AbstractController
 {
 
     private $client;
+    private $categories = ['Brume', 'Ambrée', 'Blanche', 'Sans alcool'];
 
     public function __construct(HttpClientInterface $client)
     {
@@ -130,5 +131,51 @@ class BarController extends AbstractController
         $entityManager->flush();
 
         return new Response('Saved all beers into category "Blonde" ');
+    }
+
+    private function generateCat()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        foreach ($this->categories as $name) {
+            $category = new Category(); // nouvel objet <=> une nouvelle entrée dans la base
+            $category->setName($name);
+            $entityManager->persist($category);
+        }
+
+        $entityManager->flush();
+    }
+
+    /**
+     * @Route("/newbeercat", name="newbeercat")
+     */
+    public function createBeerCat()
+    {
+        $this->generateCat();
+        $entityManager = $this->getDoctrine()->getManager();
+        $categories = $this->getDoctrine()->getRepository(Category::class);
+
+        $beer = new Beer();
+        $beer->setname('Bière Ardèchoise');
+        $beer->setPublishedAt(new \DateTime());
+        $beer->setDescription('Ergonomic and stylish!');
+
+        foreach ($categories->findAll() as $category) {
+            $beer->addCategory($category);
+        }
+
+        $entityManager->persist($beer);
+
+        $entityManager->flush();
+
+        return new Response('ok beer into categories');
+    }
+
+     /**
+     * @Route("/repo", name="repo")
+     */
+    public function repo(){
+
+        return new Response('test repo');
     }
 }
