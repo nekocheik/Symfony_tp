@@ -88,8 +88,9 @@ class BarController extends AbstractController
 
     /**
      * @Route("/newbeer", name="create_beer")
-    */
-    public function createBeer(){
+     */
+    public function createBeer()
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $beer = new Beer();
@@ -103,13 +104,14 @@ class BarController extends AbstractController
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
-        return new Response('Saved new beer with id '.$beer->getId());
+        return new Response('Saved new beer with id ' . $beer->getId());
     }
 
     /**
      * @Route("/newcategory", name="newcategory")
-    */
-    public function createCategory(){
+     */
+    public function createCategory()
+    {
 
         // new category
         $category = new Category();
@@ -131,26 +133,35 @@ class BarController extends AbstractController
         $entityManager->flush();
 
         return new Response(
-            'Saved new beer with id: '.$beer->getId()
-            .' and new category with id: '.$category->getId()
+            'Saved new beer with id: ' . $beer->getId()
+                . ' and new category with id: ' . $category->getId()
         );
     }
-
 
     /**
-     * @Route("/show", name="show")
-    */
-    public function showCategory(){
-        $repository = $this->getDoctrine()->getRepository(Beer::class);
+     * @Route("/relation", name="relation")
+     */
+    public function showCategory()
+    {
+        $beers = $this->getDoctrine()->getRepository(Beer::class);
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $beers = $repository->findAll();
 
-        dump($beers);
+        // new category Blonde
+        $category = new Category();
+        $category->setName('Blonde');
+        $category->setDescription('Blonde');
+
+        foreach ($beers->findAll() as $beer) {
+            // relates this beer to the category
+            $category->addBeer($beer);
+        }
+
+        $entityManager->persist($category);
+        $entityManager->flush();
 
         return new Response(
-           'beers'
+            'beers'
         );
     }
-
-
 }
