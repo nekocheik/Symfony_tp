@@ -80,7 +80,7 @@ class Category
     {
         if (!$this->beers->contains($beer)) {
             $this->beers[] = $beer;
-            $beer->addCategory($this);
+            $beer->addCategory($this); // table de relation ManyToMany
         }
 
         return $this;

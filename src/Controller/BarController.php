@@ -98,7 +98,7 @@ class BarController extends AbstractController
         $beer->setPublishedAt(new \DateTime());
         $beer->setDescription('Ergonomic and stylish!');
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
+        // tell Doctrine you want to (eventually) save the Beer (no queries yet)
         $entityManager->persist($beer);
 
         // actually executes the queries (i.e. the INSERT query)
@@ -108,105 +108,27 @@ class BarController extends AbstractController
     }
 
     /**
-     * @Route("/newcategory", name="newcategory")
+     * @Route("/newcatbeer", name="newcatbeer")
      */
-    public function createCategory()
+    public function createCatBeer()
     {
-        // new category
-        $category = new Category();
-        $category->setName('Houblon');
-        $category->setDescription('Houblon');
-
-        // new beer
-        $beer = new Beer();
-        $beer->setName('Beer new');
-        $beer->setPrice(19.99);
-        $beer->setDescription('Ergonomic and stylish!');
-
-        // relates this beer to the category
-        $category->addBeer($beer);
-
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($category);
-        $entityManager->persist($beer);
-        $entityManager->flush();
-
-        return new Response(
-            'Saved new beer with id: ' . $beer->getId()
-                . ' and new category with id: ' . $category->getId()
-        );
-    }
-
-
-    /**
-     * @Route("/addcategory", name="addcategory")
-     */
-    public function addCategory()
-    {
-        // new category
-        $category = new Category();
-        $category->setName('Houblon' . random_int(1, 10));
-        $category->setDescription('Houblon' . random_int(1, 10));
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($category);
-        $entityManager->flush();
-
-        return new Response(
-            ' and new category with id: ' . $category->getId()
-        );
-    }
-
-
-    /**
-     * @Route("/relation", name="relation")
-     */
-    public function addRelation()
-    {
         $beers = $this->getDoctrine()->getRepository(Beer::class);
-        $entityManager = $this->getDoctrine()->getManager();
 
-        // new category Blonde
+        // dump($beers->findAll());
+
         $category = new Category();
-        $category->setName('Blonde');
-        $category->setDescription('Blonde');
+        $category->setname('Blonde');
+        $category->setDescription('Super bière blonde');
 
         foreach ($beers->findAll() as $beer) {
-            // relates this beer to the category
             $category->addBeer($beer);
         }
 
         $entityManager->persist($category);
+
         $entityManager->flush();
 
-        return new Response(
-            'beers'
-        );
-    }
-
-     /**
-     * @Route("/relationcat", name="relationcat")
-     */
-    public function addRelationcat()
-    {
-        $categories = $this->getDoctrine()->getRepository(Category::class);
-        $entityManager = $this->getDoctrine()->getManager();
-
-        // new category Blonde
-        $beer = new Beer();
-        $beer->setName('Ardeche');
-        $beer->setDescription('Blonde');
-
-        foreach ($categories->findAll() as $category) {
-            // relates this beer to the category
-            $beer->addCategory($category);
-        }
-
-        $entityManager->persist($beer);
-        $entityManager->flush();
-
-        return new Response(
-            'beers'
-        );
+        return new Response('Saved all beers into category "Blonde" ');
     }
 }
