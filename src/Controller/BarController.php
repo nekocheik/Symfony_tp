@@ -15,7 +15,7 @@ class BarController extends AbstractController
 {
 
     private $client;
-    private $categories = ['Brume', 'Ambrée', 'Blanche', 'Sans alcool'];
+    private $categories = ['Brune', 'Ambrée', 'Blanche', 'Sans alcool'];
 
     public function __construct(HttpClientInterface $client)
     {
@@ -153,14 +153,14 @@ class BarController extends AbstractController
     {
         $this->generateCat();
         $entityManager = $this->getDoctrine()->getManager();
-        $categories = $this->getDoctrine()->getRepository(Category::class);
+        $repository = $this->getDoctrine()->getRepository(Category::class);
 
         $beer = new Beer();
-        $beer->setname('Bière Ardèchoise');
+        $beer->setName('Bière Ardèchoise');
         $beer->setPublishedAt(new \DateTime());
         $beer->setDescription('Ergonomic and stylish!');
 
-        foreach ($categories->findAll() as $category) {
+        foreach ($repository->findAll() as $category) {
             $beer->addCategory($category);
         }
 
@@ -175,6 +175,10 @@ class BarController extends AbstractController
      * @Route("/repo", name="repo")
      */
     public function repo(){
+
+        $repository = $this->getDoctrine()->getRepository(Category::class);
+
+        dump($repository->findByName('Ambrée'));
 
         return new Response('test repo');
     }
