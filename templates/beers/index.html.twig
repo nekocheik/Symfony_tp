@@ -15,6 +15,11 @@
         <p><small>Date d'invention : {{ beer.publishedAt | date('d/m/Y h:i:s') }} </small></p>
         <img src="{{ asset('build/images/beer_00.jpg') }}" />
         {# Affichez les catégories dans lesquelles se trouvent vos bières  #}
+        {% if beer.country  %}
+            <p> Country : {{ beer.country.name}} </p>
+        {% else %}
+            <p>No country</p>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -70,6 +70,10 @@ class BarController extends AbstractController
     public function beers()
     {
         $beerRepo = $this->getDoctrine()->getRepository(Beer::class);
+
+        foreach ($beerRepo->findAll() as $beer) {
+           dump($beer->getCountry());
+        }
       
         return $this->render('beers/index.html.twig', [
             'title' => 'Page beers',
