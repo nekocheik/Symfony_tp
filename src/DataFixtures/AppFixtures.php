@@ -2,8 +2,6 @@
 
 namespace App\DataFixtures;
 
-use Faker;
-
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -13,8 +11,10 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create('fr_FR');
+       
 
+        // associé à vos bières un nom aléatoirement
+        // dans le tableau suivant
         $names = [
             'beer super',
             'beer cool',
@@ -28,19 +28,10 @@ class AppFixtures extends Fixture
             'beer very simple',
         ];
 
-        for ($i = 0; $i < 20; $i++) {
-            $beer = new Beer();
-            $beer->setName($names[random_int(0, count($names) - 1)]);
-            // si vous n'avez pas la version de PHP 8 ceci marchera 
-            $beer->setDescription($this->lorem(10));
-            // ok pour toutes les versions php 7
-            $beer->setPublishedAt($faker->dateTime());
+        // generate 20 beers
+        // mettre une description & une date associées à vos bières
 
-            $beer->setDegree(rand(40, 100) / 10);
-            $beer->setPrice(rand(40, 100) / 10);
-
-            $manager->persist($beer);
-        }
+        // $manager->persist($beer);
 
         $manager->flush();
     }
