@@ -11,7 +11,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-       
 
         // associé à vos bières un nom aléatoirement
         // dans le tableau suivant
@@ -31,16 +30,33 @@ class AppFixtures extends Fixture
         // generate 20 beers
         // mettre une description & une date associées à vos bières
 
-        // $manager->persist($beer);
+        $count = 0;
+        while ($count < 20) {
+            $beer =  new Beer();
+            $beer->setName($names[random_int(0, count($names) - 1)]);
+            $beer->setDescription($this->lorem(random_int(5, 20)));
+
+            $date = new \DateTime('2000-01-01');
+            $day = random_int(10, 1000);
+            $date->add(new \DateInterval("P". $day."D"));
+            // dump( $date->format('Y-m-d h:i:s') ) ;
+
+            $beer->setPublishedAt($date);
+            $manager->persist($beer);
+
+            $count++;
+        }
+
 
         $manager->flush();
     }
 
-    private function lorem($nb){
+    private function lorem($nb)
+    {
 
         $wordList = [
             'alias', 'consequatur', 'aut', 'perferendis', 'sit', 'voluptatem',
-            'accusantium', 'doloremque', 'aperiam', 'eaque','ipsa', 'quae', 'ab',
+            'accusantium', 'doloremque', 'aperiam', 'eaque', 'ipsa', 'quae', 'ab',
             'illo', 'inventore', 'veritatis', 'et', 'quasi', 'architecto',
             'beatae', 'vitae', 'dicta', 'sunt', 'explicabo', 'aspernatur', 'aut',
             'odit', 'aut', 'fugit', 'sed', 'quia', 'consequuntur', 'magni',
@@ -81,11 +97,10 @@ class AppFixtures extends Fixture
         $sentences = [];
         shuffle($wordList);
 
-        for ($i=0; $i < $nb; $i++) {
-            $sentences[]= $wordList[$i];
+        for ($i = 0; $i < $nb; $i++) {
+            $sentences[] = $wordList[$i];
         }
 
         return implode(' ', $sentences);
-
     }
 }
