@@ -69,10 +69,12 @@ class BarController extends AbstractController
      */
     public function beers()
     {
+        $repository = $this->getDoctrine()->getRepository(Beer::class);
+        $beers = $repository->findAll();
 
         return $this->render('beers/index.html.twig', [
             'title' => 'Page beers',
-            'beers' => $this->beers_api()['beers']
+            'beers' => $beers
         ]);
     }
 

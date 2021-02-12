@@ -30,7 +30,7 @@ class Beer
     private $description;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="decimal", precision=3, scale=2, nullable=true)
      */
     private $price;
 
@@ -48,6 +48,11 @@ class Beer
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="beers")
      */
     private $categories;
+
+    /**
+     * @ORM\Column(type="decimal", precision=3, scale=2)
+     */
+    private $degree;
 
     public function __construct()
     {
@@ -139,6 +144,18 @@ class Beer
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getDegree(): ?string
+    {
+        return $this->degree;
+    }
+
+    public function setDegree(string $degree): self
+    {
+        $this->degree = $degree;
 
         return $this;
     }

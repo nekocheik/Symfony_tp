@@ -9,7 +9,11 @@
     <div class="card card__beers">
       <div class="card-body">
         <h5 class="card-title">{{ beer.name }}</h5>
-        <p class="card-text">Degree : {{ beer.degree }}</p>
+        <p class="card-text">Degree : {{ beer.degree ?? 'aucune information' }}</p>
+        <p class="card-text">Price en euro : {{ beer.price ?? 'aucune information' }}</p>
+
+        <p>{{ beer.description }}</p>
+        <p>Date d'invention : {{ beer.publishedAt | date('d/m/Y')}} </p>
         <img src="{{ asset('build/images/beer_00.jpg') }}" />
       </div>
     </div>
