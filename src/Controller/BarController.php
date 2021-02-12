@@ -28,7 +28,7 @@ class BarController extends AbstractController
     public function index(): Response
     {
         return $this->render('bar/index.html.twig', [
-            'title' => 'The bar',
+            'title' => 'The bar kkkkkk',
             'info' => 'Hello World'
         ]);
     }
