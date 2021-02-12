@@ -10,8 +10,8 @@
       <div class="card-body">
         <h5 class="card-title">{{ beer.name }}</h5>
 
-        <p>TODO</p>
-        <p>Date d'invention : TODO </p>
+        <p>{{ beer.description }}</p>
+        <p><small>Date d'invention : {{ beer.publishedAt | date('d/m/Y h:i:s') }} </small></p>
         <img src="{{ asset('build/images/beer_00.jpg') }}" />
         {# Affichez les catégories dans lesquelles se trouvent vos bières  #}
       </div>
