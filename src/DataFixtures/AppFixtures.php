@@ -6,12 +6,37 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Beer;
+use App\Entity\Category;
 use App\Entity\Country;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        // catégories normals
+        $categoriesNormals = [
+            'blonde', 'brune', 'blanche'];
+
+        // catégories specials
+        $categoriesSpecials = [
+            'houblon', 'rose', 'menthe', 'grenadine', 'réglisse', 'marron', 'whisky', 'bio'
+        ];
+
+        foreach ($categoriesNormals as $name) {
+            $category = new Category();
+            $category->setName($name);
+            $manager->persist($category);
+        }
+
+        foreach ($categoriesSpecials as $name) {
+            $category = new Category();
+            $category->setName($name);
+            $category->setTerm('special');
+            $manager->persist($category);
+        }
+
+        $manager->flush();
+
         $countries = ['belgium', 'french', 'English', 'germany'];
 
         foreach ($countries as $name) {
@@ -45,27 +70,27 @@ class AppFixtures extends Fixture
         while ($count < 20) {
             $beer =  new Beer();
             // associer un pays une fois sur deux à une bière
-            if( rand(1, 2) === 1){
+            if (rand(1, 2) === 1) {
                 $name = $countries[rand(0, count($countries) - 1)];
                 $country = $repoCountry->findOneBy([
                     'name' => $name
                 ]);
-                 // ajout d'un country
+                // ajout d'un country
                 $beer->setCountry($country);
             }
-            
+
             $beer->setName($names[random_int(0, count($names) - 1)]);
             $beer->setDescription($this->lorem(random_int(5, 20)));
-           
+
             $date = new \DateTime('2000-01-01');
             $day = random_int(10, 1000);
-            $date->add(new \DateInterval("P". $day."D"));
+            $date->add(new \DateInterval("P" . $day . "D"));
             // dump( $date->format('Y-m-d h:i:s') ) ;
 
-            if( rand(1, 3) === 1)
-                $beer->setPrice(rand(40, 200) / 10) ;
+            if (rand(1, 3) === 1)
+                $beer->setPrice(rand(40, 200) / 10);
 
-            $beer->setDegree(rand(40, 90) / 10) ;
+            $beer->setDegree(rand(40, 90) / 10);
             $beer->setPublishedAt($date);
 
             $manager->persist($beer);
@@ -127,6 +152,4 @@ class AppFixtures extends Fixture
 
         return implode(' ', $sentences);
     }
-
-
 }
