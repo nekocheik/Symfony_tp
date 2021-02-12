@@ -6,11 +6,21 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Beer;
+use App\Entity\Country;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $countries = ['belgium', 'french', 'English', 'germany'];
+
+        foreach ($countries as $name) {
+            $country = new Country();
+            $country->setName($name);
+            $manager->persist($country);
+        }
+
+        $manager->flush();
 
         // associé à vos bières un nom aléatoirement
         // dans le tableau suivant
@@ -31,10 +41,16 @@ class AppFixtures extends Fixture
         // mettre une description & une date associées à vos bières
 
         $count = 0;
+        $repoCountry = $manager->getRepository(Country::class);
         while ($count < 20) {
             $beer =  new Beer();
+            $name = $countries[rand(0, count($countries) - 1)];
+            $country = $repoCountry->findOneBy([
+                'name' => $name
+            ]);
             $beer->setName($names[random_int(0, count($names) - 1)]);
             $beer->setDescription($this->lorem(random_int(5, 20)));
+           
             $date = new \DateTime('2000-01-01');
             $day = random_int(10, 1000);
             $date->add(new \DateInterval("P". $day."D"));
@@ -42,12 +58,14 @@ class AppFixtures extends Fixture
 
             if( rand(1, 3) === 1)
                 $beer->setPrice(rand(40, 200) / 10) ;
-                
+
             $beer->setDegree(rand(40, 90) / 10) ;
-
             $beer->setPublishedAt($date);
-            $manager->persist($beer);
+           
+            // ajout d'un country
+            $beer->setCountry($country);
 
+            $manager->persist($beer);
             $count++;
         }
 
@@ -106,4 +124,6 @@ class AppFixtures extends Fixture
 
         return implode(' ', $sentences);
     }
+
+
 }
