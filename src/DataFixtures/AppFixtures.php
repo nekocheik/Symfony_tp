@@ -35,18 +35,21 @@ class AppFixtures extends Fixture
             $beer =  new Beer();
             $beer->setName($names[random_int(0, count($names) - 1)]);
             $beer->setDescription($this->lorem(random_int(5, 20)));
-
             $date = new \DateTime('2000-01-01');
             $day = random_int(10, 1000);
             $date->add(new \DateInterval("P". $day."D"));
             // dump( $date->format('Y-m-d h:i:s') ) ;
+
+            if( rand(1, 3) === 1)
+                $beer->setPrice(rand(40, 200) / 10) ;
+                
+            $beer->setDegree(rand(40, 90) / 10) ;
 
             $beer->setPublishedAt($date);
             $manager->persist($beer);
 
             $count++;
         }
-
 
         $manager->flush();
     }
