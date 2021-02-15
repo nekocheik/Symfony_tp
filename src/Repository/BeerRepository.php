@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Beer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Func;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,16 +36,19 @@ class BeerRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    // public function findOneBySomeField($value): ?Beer
+    // {
+    //     return $this->createQueryBuilder('b')
+    //         ->andWhere('b.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
 
-    /*
-    public function findOneBySomeField($value): ?Beer
+    public function findLastBeers($limit = 3) : array
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder('b')->setMaxResults($limit)->getQuery()->getResult();
     }
-    */
 }
