@@ -69,9 +69,7 @@ class AppFixtures extends Fixture
           // associer un pays une fois sur deux à une bière
           if (rand(1, 2) === 1) {
             $name = $countries[rand(0, count($countries) - 1)];
-            $country = $repoCountry->findOneBy([
-              'name' => $name
-                ]);
+            $country = $repoCountry->findOneBy([ 'name' => $name ]);
             // ajout d'un country
             $beer->setCountry($country);
             }
@@ -88,10 +86,18 @@ class AppFixtures extends Fixture
               $beer->setPrice(rand(40, 200) / 10);
 
             $beer->setDegree(rand(40, 90) / 10);
+
             $beer->setPublishedAt($date);
+            $typeOfCategory = rand(0,1) == 1 ? 'special' : 'normal';
+
+            $repoCat = $manager->getRepository(Category::class)->findByTerm($typeOfCategory);
+
+            shuffle($repoCat); 
+            $beer->addCategory($repoCat[0]);
 
             $manager->persist($beer);
             $count++;
+
         }
 
         $manager->flush();

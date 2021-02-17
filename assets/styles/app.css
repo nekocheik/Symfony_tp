@@ -1,3 +1,16 @@
-body {
-    background-color: lightgray;
+@import "tailwindcss/base";
+ 
+@import "tailwindcss/components";
+ 
+@import "tailwindcss/utilities";
+
+html {
+    height: 100%;
 }
+
+.card {
+  min-height: 400px;
+  min-width: 315px; 
+}
+
+/* body { background-color: lightgray; } */

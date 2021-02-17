@@ -1,0 +1,40 @@
+<div class="pb-14">
+  <div class="relative flex-shrink-0 max-w-xs mx-2 -mb-6 overflow-hidden bg-purple-500 rounded-lg shadow-lg card">
+    <!-- <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none"> -->
+    <!--   <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="#a17cf3"> -->
+    <!--   </rect> -->
+    <!--   <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="#a17cf3"> -->
+    <!--   </rect> -->
+    <!-- </svg> -->
+    <div class="relative flex items-center justify-center px-10 pt-10">
+      <div class="absolute bottom-0 left-0 block w-48 h-48 ml-3 -mb-24">
+      </div>
+      <p class="absolute top-0 left-0 pt-4 ml-6 text-gray" > <small>Date d'invention : {{ beer.publishedAt | date('d/m/Y') }} </small></p>
+      <img class="relative w-20 pt-10" src="{{ asset('build/images/beer_picture.png') }}" alt="shopping"/>
+    </div>
+    <div class="flex flex-col justify-between">
+      <div class="relative px-6 pb-6 mt-6 text-white">
+        <div class="flex justify-between h-full">
+          <span>
+            <span class="block -mb-1 opacity-75">
+              {{ beer.degree }} °
+            </span>
+            <p>{{ beer.country ? beer.country.name : ''}} </p>
+            <span class="block text-lg font-semibold">
+              {{ beer.name }}
+            </span> 
+            <p class="text-sm">{{ beer.description|length > 30 ? beer.description|slice(0, 30) ~ '...' : beer.description  }}</p>
+          </span>
+          <span class="flex items-center px-3 py-2 text-xs font-bold leading-none text-center text-purple-500 bg-white rounded-full">
+            {{ beer.price ?? 'prix inconnu' }}
+          </span>
+        </div>
+      </div>
+      <span class="table mx-auto">
+        <button class="px-6 py-2 mx-auto border-2 border-gray-900 rounded-full transition ease-in duration-200 hover:bg-gray-800 hover:text-white focus:outline-none">
+          Voir la fiche
+        </button>
+    </div>
+    </span>
+  </div>
+</div>

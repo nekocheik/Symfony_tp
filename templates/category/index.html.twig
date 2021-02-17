@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+  {% block body %}
+    <h5 class="py-6 text-xl font-bold text-primary">{{ title }}</h5>
+
+
+    <div class="flex flex-wrap">
+      {% for beer in beers %}
+        {{render(controller('App\\Controller\\BarController:card_beer', {'beer': beer}))}}
+      {% endfor %}
+    </div>
+  {% endblock %}
