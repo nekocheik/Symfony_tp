@@ -14,7 +14,7 @@
         {% endblock %}
     </head>
     <body>
-      {{render(controller('App\\Controller\\BarController:mainMenu', { 'routeName' : app.request.attributes.get('_route'), 'category_id' : app.request.attributes.get('id') ?? '' }))}}
+      {{render(controller('App\\Controller\\BarController:mainMenu', { 'route_name' : app.request.attributes.get('_route'), 'category_id' : app.request.attributes.get('id') ?? '' }))}}
         <div class="">
             <div class="flex">
                 <div class="w-2/6">
