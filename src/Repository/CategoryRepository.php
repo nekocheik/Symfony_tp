@@ -43,4 +43,14 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findBeerById ($id)
+    {
+      return $this->createQueryBuilder('c')
+            ->andWhere('c.beer_id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

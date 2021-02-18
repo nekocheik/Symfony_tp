@@ -4,13 +4,20 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+
 
 use App\Entity\Beer;
 use App\Entity\Category;
 use App\Entity\Country;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements OrderedFixtureInterface
 {
+  public function getOrder()
+  {
+    return 1; // number in which order to load fixtures
+  }
+
   public function load(ObjectManager $manager)
   {
     // catégories normals

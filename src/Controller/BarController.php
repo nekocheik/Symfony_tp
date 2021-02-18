@@ -44,6 +44,7 @@ class BarController extends AbstractController
     {
       $entityManager = $this->getDoctrine()->getManager();
       $categorys = $this->getDoctrine()->getRepository(Category::class);
+
       $repoCategorys = $categorys->findByTerm("normal");
 
       return $this->render('partial/main_menu.html.twig', [ 
@@ -109,6 +110,7 @@ class BarController extends AbstractController
       $catRepo = $this->getDoctrine()->getRepository(Category::class);
       $category = $catRepo->find($id);
       $beers = $category->getBeers()->getValues();
+
       return $this->render('category/index.html.twig', [
         'title' => $category->getName(),
         'beers' => $beers,
