@@ -24,6 +24,7 @@ class BeerRepository extends ServiceEntityRepository
     {
       return $this->createQueryBuilder('b')
                   ->setMaxResults($limit)
+                  ->orderBy('c.id', 'ASC')
                   ->getQuery()
                   ->getResult();
     }
