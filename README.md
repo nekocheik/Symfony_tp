@@ -39,7 +39,7 @@ symfony server:start
 ### Start Webpack
 
 ```
-npm run dev-server
+yarn run dev-server
 ```
 
 ## Schéma
