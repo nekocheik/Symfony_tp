@@ -95,7 +95,7 @@ class BarController extends AbstractController
       $beerRepo = $this->getDoctrine()->getRepository(Beer::class);
       $beer = $beerRepo->find($id);
       if (!$beer) { return $this->redirectToRoute('home'); }
-      return $this->render('beers/sigleBeer.html.twig', [
+      return $this->render('beers/sigle_beer.html.twig', [
         'title' => 'Fiche produit',
         'beer' => $beer,
       ]);

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+  {% block body %}
+
+    <h5 class="py-10 text-2xl text-primary">{{ beer.name }}</h5>
+    <p><small>Date d'invention : {{ beer.publishedAt | date('d/m/Y h:i:s') }} </small></p>
+    <img src="{{ asset('build/images/beer_picture.png') }}" />
+    {# Affichez les catégories dans lesquelles se trouvent vos bières  #}
+    <p>Price : {{ beer.price ?? 'aucune information' }} </p>
+    <p>Degree : {{ beer.degree }} </p>
+    <p>{{ beer.country ? beer.country.name : ''}} </p>
+    <p>{{ beer.description }}</p>
+{% endblock %}
