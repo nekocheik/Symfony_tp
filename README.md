@@ -44,4 +44,4 @@ npm run dev-server
 
 ## Schéma
 
-![Schéma](https://github.com/nekocheik/Symfony_tp/Schema.png)
+![Schéma](https://github.com/nekocheik/Symfony_tp/blob/main/Schema.png)
